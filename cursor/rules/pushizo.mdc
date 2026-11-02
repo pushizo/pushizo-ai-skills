@@ -1,0 +1,40 @@
+---
+description: Pushizo SDK and REST API integration rules (push, email, SMS, in-app messaging, webhooks)
+globs:
+alwaysApply: false
+---
+
+# Pushizo integration
+
+Apply when the task mentions Pushizo, push notifications, the `@pushizo/*` packages, `pushizo` SDKs or
+`api.pushizo.com`.
+
+## Secrets
+- Client apps get only the App ID (public). API keys (`hs_live_…`), SDK secrets, webhook secrets (`whsec_…`),
+  APNs `.p8` keys and Firebase service accounts stay on the server, in environment variables or a secret manager.
+- Never hard-code, log, print or commit them. Add new variables to `.env.example` without values.
+
+## Client SDKs
+- Initialize once per app launch (web: in the browser only, never during SSR). Request notification permission after
+  a user action. Call `login(externalId)` after sign-in and `logout()` on sign-out.
+- Web: `@pushizo/web` or the script `https://api.pushizo.com/sdk-web/PushizoSDK.js`, plus `/PushizoSDKWorker.js` at
+  the site root. React/Vue/Angular: `@pushizo/react`, `@pushizo/vue`, `@pushizo/angular`.
+- Mobile: iOS SPM `https://github.com/pushizo/pushizo-ios`, Android `com.pushizo:pushizo-android`, Flutter
+  `pushizo_flutter`, React Native/Expo `@pushizo/react-native`, Capacitor `@pushizo/capacitor`, Cordova
+  `cordova-plugin-pushizo`, MAUI `Pushizo.Maui`, Unity `com.pushizo.unity`.
+
+## Server API
+- Use the official SDK: `@pushizo/node`, `pushizo` (PyPI), `pushizo/pushizo-php`, `github.com/pushizo/pushizo-go`,
+  `com.pushizo:pushizo-java`, `Pushizo` (NuGet), `pushizo` (RubyGems), `pushizo` (crates.io).
+- `POST /v1/notifications` with `target.include_aliases.external_id`, localized `headings`/`contents`, and a
+  deterministic `Idempotency-Key` (e.g. `order-1001-shipped`).
+- Do not run real sends, schedules or campaign sends unless the user explicitly asks; use
+  `target.test_devices_only: true` or `POST /v1/notifications/estimate` during development.
+- Errors: `{"error": {"code": "HS_…", "message", "request_id"}}`; honor `Retry-After` on 429; log `request_id`.
+
+## Webhooks
+- Verify `Pushizo-Signature: t=…,v1=…` (HMAC-SHA256 of `t + "." + raw body`) on the raw body with the SDK helper,
+  tolerance 300 s, constant-time compare; deduplicate by `Pushizo-Event-Id`.
+
+Full guides: https://docs.pushizo.com/docs · Skills with examples: `skills/*/SKILL.md` in
+https://github.com/pushizo/pushizo-ai-skills
