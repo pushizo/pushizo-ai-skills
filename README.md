@@ -42,6 +42,11 @@ entegre etmesi için skill, kural ve hazır istemler. Skill dosyaları ajanları
 | `skills/pushizo-server-api/SKILL.md` | Sunucu SDK'ları (Node, Python, PHP, Go, Java, .NET, Ruby, Rust) ve REST API: gönderim, kullanıcılar, segment/şablon/kampanya, hatalar, yeniden deneme, idempotency, sayfalama, kimlik doğrulama |
 | `skills/pushizo-webhooks/SKILL.md` | Webhook alıcısı: ham gövdede `Pushizo-Signature` doğrulaması, batch, tekrar ayıklama, secret rotasyonu |
 | `skills/pushizo-drafts/SKILL.md` | Gönderim yapmadan taslak hazırlama: push kanalı, e-posta şablonu ve taslak kampanya, segment |
+| `skills/pushizo-audit/SKILL.md` | Teslimatı engelleyen sorunları bulur, düzeltmeleri önceliğe göre sıralar (yalnızca okur) |
+| `skills/pushizo-critique/SKILL.md` | Mesaj metnini inceler, yeniden yazım önerir |
+| `skills/pushizo-inspect/SKILL.md` | Bağlantı, dil, kişiselleştirme ve ayar uyumsuzluklarını bulur (yalnızca okur) |
+| `skills/pushizo-localize/SKILL.md` | Push ve SMS metnini Liquid ve bağlantıları koruyarak çevirir |
+| `skills/pushizo-program/SKILL.md` | Hedefi çok adımlı kampanya planına çevirir, onayla taslak oluşturur |
 | `cursor/rules/pushizo.mdc` | Cursor proje kuralı (aynı kuralların kısa hâli) |
 | `prompts/*.md` | Kopyala-yapıştır istemler (İngilizce + Türkçe): push kanalı kurulumu, e-posta kampanya taslağı, segment taslağı |
 
